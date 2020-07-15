@@ -1,0 +1,6 @@
+# Traefik Dynamic Configuration
+http:
+  middlewares:
+    redirect:
+      redirectScheme:
+        scheme: https
