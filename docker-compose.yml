@@ -41,6 +41,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=(Host(`${WHOAMI_HOST}`) || Host(`www.${WHOAMI_HOST}`))"
       - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.middlewares=redirect@file"
+      - "traefik.http.routers.whoami-secured.entrypoints=web-secured"
+      - "traefik.http.routers.whoami-secured.rule=(Host(`${WHOAMI_HOST}`) || Host(`www.${WHOAMI_HOST}`))"
+      - "traefik.http.routers.whoami-secured.tls=true"
+      - "traefik.http.routers.whoami-secured.tls.certresolver=mytlschallenge"
     networks:
       - web
 
