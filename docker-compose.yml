@@ -47,5 +47,5 @@ services:
 networks:
   web:
     external: true
-  backend:
-    external: false
+  # backend:
+  #   external: false
