@@ -65,8 +65,11 @@ services:
       - ADMIN_PASSWORD=${MINIFLUX_ADMIN_PASSWORD}
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.miniflux.entrypoints=web'
+      - 'traefik.http.routers.miniflux.entrypoints=websecure'
+      - 'traefik.http.routers.miniflux.middlewares=redirect@file'
       - 'traefik.http.routers.miniflux.rule=Host(`rss.${HOST}`)'
+      - 'traefik.http.routers.miniflux.tls.certresolver=mytlschallenge'
+      - 'traefik.http.routers.miniflux.tls=true'
     networks:
       - web
       - backend
