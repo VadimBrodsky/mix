@@ -59,6 +59,7 @@ services:
       - pg
     environment:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@pg/miniflux?sslmode=disable
+      - POLLING_FREQUENCY=10
       - RUN_MIGRATIONS=${MINIFLUX_INIT}
       - CREATE_ADMIN=${MINIFLUX_INIT}
       - ADMIN_USERNAME=${MINIFLUX_ADMIN}
