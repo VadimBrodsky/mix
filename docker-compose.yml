@@ -105,9 +105,7 @@ services:
       - 'traefik.http.routers.wallabag.tls=true'
     networks:
       - backend
-
-  redis:
-    image: redis:alpine
+      - web
 
   pg:
     container_name: 'postrgres'
