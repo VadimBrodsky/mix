@@ -77,8 +77,9 @@ services:
       - backend
 
   wallabag:
-    image: wallabag/wallabag
     container_name: wallabag
+    image: wallabag/wallabag
+    restart: always
     depends_on:
       - pg
     environment:
