@@ -122,10 +122,11 @@ services:
       - backend
 
   pgbackups:
+    container_name: 'pgbackups'
     image: 'prodrigestivill/postgres-backup-local:12-alpine'
     restart: always
     volumes:
-      - './pg_backups:/backups'
+      - './data/pg_backups:/backups'
     links:
       - pg
     depends_on:
