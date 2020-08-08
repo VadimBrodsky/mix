@@ -2,3 +2,4 @@
 acme.json
 *.swp
 data
+*.sql
