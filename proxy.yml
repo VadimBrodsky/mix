@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  traefik:
+    image: 'traefik:v2.2'
+    command:
+      - '--api.dashboard=true'
+      # - "--api.debug=false"
+      - '--api.insecure=false'
+      # - --certificatesresolvers.mytlschallenge.acme.email=${EMAIL}
+      # - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json
+      # - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.websecure.address=:443'
+      - '--log.level=WARN' # DEBUG, PANIC, FATAL, ERROR, WARN, INFO
+      - '--providers.docker.endpoint=unix:///var/run/docker.sock'
+      - '--providers.docker.exposedbydefault=false'
+      - '--providers.docker.network=webproxy'
+      - '--providers.docker.swarmMode=true'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      # - './letsencrypt:/letsencrypt'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    networks:
+      - webproxy
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - 'traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https'
+        - 'traefik.http.routers.http-catchall.entrypoints=web'
+        - 'traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker'
+        - 'traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)'
+        - 'traefik.http.services.api.loadbalancer.server.port=80'
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.api.rule=Host(`status.test.local`)'
+        - 'traefik.http.routers.api.service=api@internal'
+        # - 'traefik.http.routers.api.tls.certresolver=mytlschallenge'
+        - 'traefik.http.routers.api.tls=true'
+
+networks:
+  webproxy:
+    external: true
+  # backend:
+  #   external: false
