@@ -7,13 +7,16 @@ services:
       - webproxy
     deploy:
       labels:
+        # - 'traefik.http.routers.whoami.tls.certresolver=mytlschallenge'
         - 'traefik.enable=true'
-        - 'traefik.http.routers.whoami.entrypoints=web'
+        - 'traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https'
+        - 'traefik.http.routers.whoami.entrypoints=websecure'
         - 'traefik.http.routers.whoami.rule=(Host(`test.local`) || Host(`www.test.local`))'
-        - 'traefik.http.routers.whoamisecure.entrypoints=websecure'
-        - 'traefik.http.routers.whoamisecure.rule=(Host(`test.local`) || Host(`www.test.local`))'
-        # - 'traefik.http.routers.whoamisecure.tls.certresolver=mytlschallenge'
-        - 'traefik.http.routers.whoamisecure.tls=true'
+        - 'traefik.http.routers.whoami.tls=true'
+        - 'traefik.http.routers.whoamiinsecure.entrypoints=web'
+        - 'traefik.http.routers.whoamiinsecure.middlewares=redirect-to-https@docker'
+        - 'traefik.http.routers.whoamiinsecure.rule=(Host(`test.local`) || Host(`www.test.local`))'
+        - 'traefik.http.routers.whoamiinsecure.rule=hostregexp(`{host:.+}`)'
         - 'traefik.http.services.whoami.loadbalancer.server.port=80'
 
 networks:
