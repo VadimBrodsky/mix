@@ -9,7 +9,7 @@ services:
       labels:
         - 'traefik.enable=true'
         - 'traefik.http.routers.helloworld.entrypoints=web'
-        - 'traefik.http.routers.helloworld.rule=Host(`helloworld.test.local`)'
+        - 'traefik.http.routers.helloworld.rule=Host(`helloworld.${HOST}`)'
         - 'traefik.http.services.helloworld.loadbalancer.server.port=80'
 
 networks:
