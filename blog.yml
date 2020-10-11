@@ -8,6 +8,6 @@ services:
       - 81:2368
     environment:
       url: ${URL}
-      volumes:
-        - '~/data/ghost_data:/var/lib/ghost/content'
+    volumes:
+      - '~/data/ghost_data:/var/lib/ghost/content'
 
