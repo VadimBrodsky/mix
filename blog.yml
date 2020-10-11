@@ -5,9 +5,11 @@ services:
     image: ghost:3-alpine
     restart: always
     ports:
-      - 81:2368
+      - 80:2368
     environment:
-      url: ${URL}
+      url: '${URL}'
     volumes:
-      - '~/data/ghost_data:/var/lib/ghost/content'
+      - 'ghost_data:/var/lib/ghost/content'
 
+volumes:
+  ghost_data:
