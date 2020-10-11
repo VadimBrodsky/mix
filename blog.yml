@@ -9,5 +9,5 @@ services:
     environment:
       url: ${URL}
       volumes:
-        - /home/vadim/data/ghost_data:/var/lib/ghost/content
+        - '~/data/ghost_data:/var/lib/ghost/content'
 
